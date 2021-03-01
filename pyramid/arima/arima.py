@@ -547,29 +547,29 @@ class ARIMA(BaseEstimator):
         # loc = self.__dict__.get('tmp_pkl_', None)
         # if loc is not None:
         #     os.unlink(loc)
-
-        # get the new location for where to save the results
-        new_loc = self._get_pickle_hash_file()
-        cwd = os.path.abspath(os.getcwd())
-
-        # check that the cache folder exists, and if not, make it.
-        cache_loc = os.path.join(cwd, PYRAMID_ARIMA_CACHE)
-        safe_mkdirs(cache_loc)
-
-        # now create the full path with the cache folder
-        new_loc = os.path.join(cache_loc, new_loc)
-
-        # save the results - but only if it's fit...
-        if hasattr(self, 'arima_res_'):
-            # statsmodels result views work by caching metrics. If they
-            # are not cached prior to pickling, we might hit issues. This is
-            # a bug documented here:
-            # https://github.com/statsmodels/statsmodels/issues/3290
-            self.arima_res_.summary()
-            self.arima_res_.save(fname=new_loc)  # , remove_data=False)
-
-            # point to the location of the saved MLE model
-            self.tmp_pkl_ = new_loc
+        #
+        # # get the new location for where to save the results
+        # new_loc = self._get_pickle_hash_file()
+        # cwd = os.path.abspath(os.getcwd())
+        #
+        # # check that the cache folder exists, and if not, make it.
+        # cache_loc = os.path.join(cwd, PYRAMID_ARIMA_CACHE)
+        # safe_mkdirs(cache_loc)
+        #
+        # # now create the full path with the cache folder
+        # new_loc = os.path.join(cache_loc, new_loc)
+        #
+        # # save the results - but only if it's fit...
+        # if hasattr(self, 'arima_res_'):
+        #     # statsmodels result views work by caching metrics. If they
+        #     # are not cached prior to pickling, we might hit issues. This is
+        #     # a bug documented here:
+        #     # https://github.com/statsmodels/statsmodels/issues/3290
+        #     self.arima_res_.summary()
+        #     self.arima_res_.save(fname=new_loc)  # , remove_data=False)
+        #
+        #     # point to the location of the saved MLE model
+        #     self.tmp_pkl_ = new_loc
 
         return self.__dict__
 
@@ -577,17 +577,17 @@ class ARIMA(BaseEstimator):
         # I am being unpickled...
         self.__dict__ = state
 
-        # re-set the results class
-        loc = state.get('tmp_pkl_', None)
-        if loc is not None:
-            try:
-                self.arima_res_ = TimeSeriesModelResults.load(loc)
-            except:
-                raise OSError('Could not read saved model state from %s. '
-                              'Does it still exist?' % loc)
+        # # re-set the results class
+        # loc = state.get('tmp_pkl_', None)
+        # if loc is not None:
+        #     try:
+        #         self.arima_res_ = TimeSeriesModelResults.load(loc)
+        #     except:
+        #         raise OSError('Could not read saved model state from %s. '
+        #                       'Does it still exist?' % loc)
 
         # Warn for unpickling a different version's model
-        self._warn_for_older_version()
+        # self._warn_for_older_version()
         return self
 
     def _warn_for_older_version(self):
