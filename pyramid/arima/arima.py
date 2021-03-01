@@ -28,7 +28,6 @@ from ..compat.python import long
 from ..compat import statsmodels as sm_compat
 from ..utils import get_callable, if_has_delegate
 from ..utils.array import diff
-from ..utils.visualization import _get_plt
 
 # Get the version
 import pyramid
